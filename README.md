@@ -29,4 +29,4 @@ Each topic contains lecture slides and an R script. You can go through them toge
     
 ### Notes
 
-- You need to install R and run "1_r_prep.R" before running R code.
+- You need to install R (and RStudio) before running R code. See "1 Intro 1.pdf" for more details. Then, import necessary packages using "1_r_prep.R".
