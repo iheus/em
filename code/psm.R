@@ -1,5 +1,5 @@
-# Code for Econometrics II at Osaka University
-# Shuhei Kitamura
+# Sample code for Econometrics II at Osaka University
+# By Shuhei Kitamura at OSIPP
 
 
 ##### 1. Plot F #####
@@ -112,7 +112,7 @@ ggplot(data=jt, aes(x=p1, fill=factor(train))) +
 
 ## plot common support (non-experimental)
 # import data
-setwd("...") # set the working directory
+# setwd("...") # set working directory if necessary
 jt2 <- read.csv("cps1re74.csv")
 
 # make variables

@@ -1,5 +1,5 @@
-# Code for Econometrics II at Osaka University
-# Shuhei Kitamura
+# Sample code for Econometrics II at Osaka University
+# By Shuhei Kitamura
 
 
 ##### 1. sample average and population average (dice) #####
@@ -57,7 +57,6 @@ jt <- wooldridge::jtrain2
 re78_t <- with(jt, mean(re78[train == 1]))
 re78_c <- with(jt, mean(re78[train == 0]))
 
-diff_mean <- re78_t - re78_c
 
 ## get standard errors
 n1 <- with(jt, length(re78[train == 1]))
@@ -76,7 +75,6 @@ sd <- sd_p*sqrt(1/n1+1/n2)
 
 ## test statistical difference
 res <- t.test(re78 ~ train, data=jt, var.equal=TRUE)
-
 
 ## power
 alpha <- 0.05

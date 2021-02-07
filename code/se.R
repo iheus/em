@@ -1,5 +1,5 @@
-# Code for Econometrics II at Osaka University
-# Shuhei Kitamura
+# Sample code for Econometrics II at Osaka University
+# By Shuhei Kitamura at OSIPP
 
 ## import packages
 library(wooldridge)
@@ -40,7 +40,7 @@ reg4 <- felm(lwage ~ educ + exper + expersq + black + smsa + south | region | 0 
 
 stargazer(reg1, reg2, reg3, reg4, se=list(NULL, NULL, robust.se, NULL), type="text")
 
-## compute moulton factor
+## compute Moulton factor
 m1 <- lm(lwage ~ educ + exper + expersq + black + smsa + south, data=card) 
 u <- residuals(m1)
 res <- summary(m1)$coef

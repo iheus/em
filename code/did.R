@@ -1,5 +1,5 @@
-# Code for Econometrics II at Osaka University
-# Shuhei Kitamura
+# Sample code for Econometrics II at Osaka University
+# By Shuhei Kitamura at OSIPP
 
 # import packages
 library(wooldridge)
@@ -24,7 +24,6 @@ reg1 <- lm(lwage ~ union, data=union)
 reg2 <- lm(lwage ~ union + educ + black + hisp + exper + expersq + married, data=union)
 reg3 <- felm(lwage ~ union + expersq + married | nr + year, data=union)
 
-
 ## demeaned regression
 # make averages
 union_mean <- summaryBy(lwage + union + educ + black + hisp + exper + expersq + married + d81 + d82 + d83 + d84 + d85 + d86 + d87 ~ nr, data=union)
@@ -36,7 +35,8 @@ for(i in myvec){
   union[paste0(i,".diff")] <- union[i] - union[paste0(i,".mean")]
 }
 
-reg4 <- lm(lwage.diff ~ union.diff + expersq.diff + married.diff + d81.diff + d82.diff + d83.diff + d84.diff + d85.diff + d86.diff + d87.diff + 0, data=union)
+reg4 <- felm(lwage ~ union + expersq + married + factor(year) | nr, data=union)
+reg5 <- lm(lwage.diff ~ union.diff + expersq.diff + married.diff + d81.diff + d82.diff + d83.diff + d84.diff + d85.diff + d86.diff + d87.diff + 0, data=union)
 
 
 ## recover the estimates on individual fixed effects
@@ -49,22 +49,27 @@ nr <- model.matrix(~ n + 0)
 union_subset <- cbind(union_subset,nr)
 
 # get estimates
-reg5 <- lm(lwage.diff ~ union.diff + expersq.diff + married.diff + d81.diff + d82.diff + d83.diff + d84.diff + d85.diff + d86.diff + d87.diff + 0, data=union_subset)
-est <- reg5$coefficients
+reg6 <- lm(lwage.diff ~ union.diff + expersq.diff + married.diff + d81.diff + d82.diff + d83.diff + d84.diff + d85.diff + d86.diff + d87.diff + 0, data=union_subset)
+est <- reg6$coefficients
+est
 
+# compute individual fixed effects
 union_subset$indiv <- with(union_subset, lwage.mean - est[1]*union.mean - est[2]*expersq.mean - est[3]*married.mean
                            - est[4]*d81.mean - est[5]*d82.mean - est[6]*d83.mean - est[7]*d84.mean 
                            - est[8]*d85.mean - est[9]*d86.mean - est[10]*d87.mean)
+
+# check the outcome (indiv variable)
 View(union_subset)
 
-reg6 <- lm(lwage ~ union + expersq + married + d81 +d82 + d83 + d84 + d85 + d86 + d87 + n13 + n17 + n18 + n45 + n110 + n120 + n126 + n150 + 0, data=union_subset)
+# compare it with the regression estimates
+reg7 <- lm(lwage ~ union + expersq + married + d81 +d82 + d83 + d84 + d85 + d86 + d87 + n13 + n17 + n18 + n45 + n110 + n120 + n126 + n150 + 0, data=union_subset)
 
 
 
 
 ##### 2. Bank failures in Mississippi #####
 ## import data
-banks <- mmdata::banks
+banks <- as.data.frame(mmdata::banks) # changed
 banks$date <- as.Date(with(banks,paste(year,month,day,sep="-")),"%Y-%m-%d")
 
 banks.lmt <- subset(banks,(month==7 & day==1))

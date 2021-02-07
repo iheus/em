@@ -1,5 +1,5 @@
-# Code for Econometrics II at Osaka University
-# Shuhei Kitamura
+# Sample code for Econometrics II at Osaka University
+# By Shuhei Kitamura at OSIPP
 
 ## import packages
 library(wooldridge)
@@ -112,8 +112,8 @@ ggplot(data=rd_mlda,aes(x=agecell,y=mva))+
 
 
 #### 2. Myerson (2014) ####
-## set the working directory
-setwd("...")
+## set working directory
+#setwd("...")
 
 ## import data
 turkey <- read.csv("turkey.csv")

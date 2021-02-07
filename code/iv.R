@@ -1,5 +1,5 @@
-# Code for Econometrics II at Osaka University
-# Shuhei Kitamura
+# Sample code for Econometrics II at Osaka University
+# By Shuhei Kitamura at OSIPP
 
 ## import packages
 library(wooldridge)
@@ -10,6 +10,7 @@ library(AER)
 library(doBy)
 library(gmodels)
 library(dplyr)
+library(ggplot2)
 
 ## clear all variables
 rm(list=ls())
@@ -52,6 +53,8 @@ with(mdve, CrossTable(z_coddle, d_coddle, prop.c=FALSE, prop.t=FALSE, prop.chisq
 exp_d_z1 <- with(mdve, length(d_coddle[z_coddle==1 & d_coddle==1])/length(d_coddle[z_coddle==1]))
 exp_d_z0 <- with(mdve, length(d_coddle[z_coddle==0 & d_coddle==1])/length(d_coddle[z_coddle==0]))
 
+first_stage <- exp_d_z1 - exp_d_z0
+
 
 ## ITT
 # make outcome variable y
@@ -80,12 +83,13 @@ with(mdve, CrossTable(z_coddle, y, prop.c=FALSE, prop.t=FALSE, prop.chisq=FALSE)
 exp_y_z1 <- with(mdve, length(y[z_coddle==1 & y==1])/length(y[z_coddle == 1]))
 exp_y_z0 <- with(mdve, length(y[z_coddle==0 & y==1])/length(y[z_coddle == 0]))
 
+itt <- exp_y_z1 - exp_y_z0
+
 
 ## LATE
 
 
-
-## regression vesion (2SLS)
+## regression version (2SLS)
 
 # first stage
 reg1 <- lm(d_coddle ~ z_coddle, data=mdve) 
